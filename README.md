@@ -1,6 +1,7 @@
 # WebStack
 
 WebStack is a minimal stack for modern web development.
+
 **Based on
  - bower (nodejs, npm)
  - primer-css
@@ -10,9 +11,9 @@ WebStack is a minimal stack for modern web development.
 
 ### Install
 
-Download the [latest release](https://github.com/andre-hub/WebStack/make-webstack.sh)
+Download the [latest release](https://raw.githubusercontent.com/andre-hub/WebStack/master/make-webstack.sh)
 ```
-$ curl https://github.com/andre-hub/WebStack/make-webstack.sh > make-webstack.sh \
+$ curl https://raw.githubusercontent.com/andre-hub/WebStack/master/make-webstack.sh > make-webstack.sh \
 	&& chmod +x make-webstack.sh && ./make-webstack.sh
 ```
 
@@ -24,8 +25,8 @@ Supported licenses: mit, bsd, apache, gpl3, public (domain)
 
 ```
 $ projectName="NewProject"; license="gpl3,mit,apache, ..." && \
-    curl https://github.com/andre-hub/WebStack/make-new-project.sh > make-webstack.sh && \
-    chmod +x make-new-project.sh && ./make-new-project.sh ${projectName} ${license}
+curl https://raw.githubusercontent.com/andre-hub/WebStack/master/make-new-project.sh > make-new-project.sh \
+&& chmod +x make-new-project.sh && ./make-new-project.sh ${projectName} ${license}
 ```
 
 ## License
