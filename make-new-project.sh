@@ -1,28 +1,29 @@
 #!/bin/sh
 # WebStack is a minimal stack for modern web development.
-# 
+#
 # -------------------------------------------------------
 gitNewRepository() {
-    git init    
+    git init
     git config core.filemode false
     echo "node_modules" > .gitignore
 }
 
 installWebStack() {
-	echo "download bower and install"	
-	npm install bower
+	echo "download bower and install"
+	npm install --save-dev bower
 	echo "download gulp and install"
-	npm install gulp
+	npm install --save-dev gulp
+	npm install --save-dev babel
 
 	bowerbin="./node_modules/.bin/bower"
 	bowerinstall="${bowerbin} install --save "
-	
+
 	echo "bower init"
 	${bowerbin} init
-	${bowerinstall} primer-css
+	${bowerinstall} pure
 	${bowerinstall} html5shiv
 	${bowerinstall} validatejs
-	${bowerinstall} angular
+	${bowerinstall} react
 }
 
 getLicense() {
