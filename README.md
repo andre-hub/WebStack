@@ -4,10 +4,11 @@ WebStack is a minimal stack for modern web development.
 
 **Based on
  - bower (nodejs, npm)
- - primer-css
- - underscore.js
+ - material-design-lite
+ - html5shiv.js
+ - lodash.js
  - validate.js
- - angular.js
+ - react
 
 ### Install
 

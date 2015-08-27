@@ -8,22 +8,28 @@ gitNewRepository() {
     echo "node_modules" > .gitignore
 }
 
+installNpmPkg() {
+	npm install --save-dev $1
+}
+
 installWebStack() {
 	echo "download bower and install"
-	npm install --save-dev bower
+	installNpmPkg bower
 	echo "download gulp and install"
-	npm install --save-dev gulp
-	npm install --save-dev babel
-
+	installNpmPkg gulp
+	installNpmPkg gulp-babel
+ 
 	bowerbin="./node_modules/.bin/bower"
 	bowerinstall="${bowerbin} install --save "
 
 	echo "bower init"
 	${bowerbin} init
-	${bowerinstall} pure
+	${bowerinstall} material-design-lite # other example: pure
 	${bowerinstall} html5shiv
+	${bowerinstall} lodash
 	${bowerinstall} validatejs
 	${bowerinstall} react
+
 }
 
 getLicense() {
