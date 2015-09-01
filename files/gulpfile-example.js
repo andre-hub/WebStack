@@ -1,3 +1,6 @@
+'use strict';
+
+// Include Gulp & Tools
 var gulp = require('gulp');
 var gulpbabel = require('gulp-babel');
 var sourcemaps = require('gulp-sourcemaps');
@@ -6,59 +9,70 @@ var rename = require('gulp-rename');
 var concat = require('gulp-concat');
 var jshint = require('gulp-jshint');
 var uglify = require('gulp-uglify');
-var notify = require('gulp-notify');
+var gutil = require('gulp-util');
 var livereload = require('gulp-livereload');
 
+var externalLibsCopys = [
+    'bower_components/html5shiv/dist/html5shiv.min.js',
+    'bower_components/html5shiv/dist/html5shiv-printshiv.min.js',
+    ];
+var externalLibs = [
+      'bower_components/lodash/lodash.min.js',
+      'bower_components/material-design-lite/material.min.js',
+      'bower_components/react/react-with-addons.min.js',
+      'bower_components/react/JSXTransformer.js',
+      'bower_components/validatejs/validate.min.js'
+      ];
+
 gulp.task('default', function() {
-  lintPipe();
-  gulp.src('src/**/*.js')
-    .pipe(notify({ message: 'build check started' }))
-    .pipe(sourcemaps.init())
-    .pipe(gulpbabel())
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
-    .pipe(notify({ message: 'build check finish' }));
+  lintTask();
 });
 
 gulp.task('build', function() {
-  lintPipe();
+  lintTask();
+  copyFilesTask();
+  buildTask();
+});
+
+var buildTask = function() {
+  gulp.src(externalLibsCopys)
+    .pipe(gulp.dest('dist/js'))
+    .on('end', function(){ gutil.log('copy EXTERNAL LIBS finish\r\n'); });
+
+  gulp.src(externalLibs)
+    .pipe(concat('libs.min.js'))
+    .pipe(gulp.dest('dist/js'))
+    .on('end', function(){ gutil.log('EXTERNALLIBS finish\r\n'); });
+
   gulp.src('src/**/*.js')
-    .pipe(notify({ message: 'Build started' }))
     .pipe(sourcemaps.init())
-    .pipe(gulpbabel())
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('default'))
-    .pipe(gulp.dest('dist/assets/js'))
-    .pipe(rename({suffix: '.min'}))
+    .pipe(gulpbabel())
     .pipe(uglify())
-    .pipe(gulp.dest('dist/assets/js'))
-    .pipe(minifycss())
-    .pipe(sourcemaps.write())
+    .pipe(concat('scripts.min.js'))
+    .pipe(sourcemaps.write('../maps',{addComment: true}))
+    .pipe(gulp.dest('dist/js'))
+    .on('end', function(){ gutil.log('BUILD finish\r\n'); });
+};
+
+var copyFilesTask = function () {
+  gulp.src('src/**/*.html')
     .pipe(gulp.dest('dist'))
-    .pipe(notify({ message: 'Scripts task complete' }));
-});
+    .on('end', function(){ gutil.log('copy HTML files finish\r\n'); });
 
-gulp.task('lint', function() {
-  lintPipe();
-});
+  gulp.src('src/**/*.css')
+    .pipe(minifycss())
+    .pipe(gulp.dest('dist/css'))
+    .on('end', function(){ gutil.log('copy CSS files finish\r\n'); });
+};
 
-var lintPipe = function () {
+var lintTask = function () {
     gulp.src('/src/**/*.js')
-    .pipe(notify({ message: 'Lint started' }))
     .pipe(jshint())
-    .pipe(notify(function (file) {
-      if (file.jshint.success) {
-        return false;
-      }
+    .pipe(jshint.reporter('default', { verbose: true }));
+};
 
-      var errors = file.jshint.results.map(function (data) {
-        if (data.error) {
-          return "(" + data.error.line + ':' + data.error.character + ') ' + data.error.reason;
-        }
-      }).join("\n");
-      return file.relative + " (" + file.jshint.results.length + " errors)\n" + errors;
-    }));
-}
 /*
 gulp.task('watch', function() {
   // Create LiveReload server

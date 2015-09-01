@@ -19,12 +19,16 @@ bowerBin() {
 
 installBowerPkg() {
 	bowerinstall="install --save "
-	bowerBin ${bowerinstall} $1
+	bowerBin "${bowerinstall} $1"
 }
 
 installWebStack() {
 	echo "download bower and install"
 	installNpmPkg "bower"
+	installNpmPkg "process-nextick-args"
+	installNpmPkg "inherits"
+	installNpmPkg "core-util-is"
+	installNpmPkg "isarray"
 	echo "download gulp and install"
 	installNpmPkg "gulp"
 	installNpmPkg "gulp-sourcemaps"
@@ -34,7 +38,7 @@ installWebStack() {
 	installNpmPkg "gulp-concat"
 	installNpmPkg "gulp-rename"
 	installNpmPkg "gulp-uglify"
-	installNpmPkg "gulp-notify"
+	installNpmPkg "gulp-util"
 	installNpmPkg "gulp-livereload"
  
 	echo "bower init"
