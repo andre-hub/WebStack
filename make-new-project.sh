@@ -5,16 +5,26 @@
 gitNewRepository() {
     git init
     git config core.filemode false
-    echo "node_modules" > .gitignore
+    echo "node_modules\r\nbower_components\r\ndist" > .gitignore
 }
 
 installNpmPkg() {
 	npm install --save-dev $1
 }
 
+bowerBin() {
+	bowerbin="./node_modules/.bin/bower"
+	${bowerbin} $1
+}
+
+installBowerPkg() {
+	bowerinstall="install --save "
+	bowerBin ${bowerinstall} $1
+}
+
 installWebStack() {
 	echo "download bower and install"
-	installNpmPkg bower
+	installNpmPkg "bower"
 	echo "download gulp and install"
 	installNpmPkg "gulp"
 	installNpmPkg "gulp-sourcemaps"
@@ -24,20 +34,18 @@ installWebStack() {
 	installNpmPkg "gulp-concat"
 	installNpmPkg "gulp-rename"
 	installNpmPkg "gulp-uglify"
+	installNpmPkg "gulp-notify"
 	installNpmPkg "gulp-livereload"
  
-	bowerbin="./node_modules/.bin/bower"
-	bowerinstall="${bowerbin} install --save "
-
 	echo "bower init"
-	${bowerbin} init
-	${bowerinstall} material-design-lite # other example: pure
-	${bowerinstall} html5shiv
-	${bowerinstall} lodash
-	${bowerinstall} validatejs
-	${bowerinstall} react
+	bowerBin init
+	installBowerPkg material-design-lite # other example: pure
+	installBowerPkg html5shiv	
+	installBowerPkg lodash	
+	installBowerPkg validatejs	
+	installBowerPkg react
 
-	downloadFile "files/gulpfile-extended.js" "gulpfile.js"
+	downloadFile "files/gulpfile-example.js" "gulpfile.js"
 	downloadFile "files/jshintrc" ".jshintrc"
 }
 
@@ -69,7 +77,7 @@ downloadTemplateFiles() {
 	targetJsPath="$targetPath/js"
 	
 	mkdir $targetJsPath
-	downloadFile "files/js/index.html" "src/js/index.js"
+	downloadFile "files/js/index.js" "src/js/index.js"
 }
 
 downloadFile() {
