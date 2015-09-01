@@ -18,6 +18,12 @@ installWebStack() {
 	echo "download gulp and install"
 	installNpmPkg gulp
 	installNpmPkg gulp-babel
+	installNpmPkg gulp-minify-css
+	installNpmPkg gulp-jshint 
+	installNpmPkg gulp-concat 
+	installNpmPkg gulp-rename
+	installNpmPkg gulp-uglify 
+	installNpmPkg gulp-livereload
  
 	bowerbin="./node_modules/.bin/bower"
 	bowerinstall="${bowerbin} install --save "
@@ -30,6 +36,8 @@ installWebStack() {
 	${bowerinstall} validatejs
 	${bowerinstall} react
 
+	downloadFile "files/gulpfile-extended.js" "gulpfile.js"
+	downloadFile "files/jshintrc" ".jshintrc"
 }
 
 getLicense() {
@@ -53,6 +61,21 @@ getLicense() {
 	curl -SsL ${licenseUrl} > LICENSE.md
 }
 
+downloadTemplateFiles() {
+	targetPath="src"
+	mkdir $targetPath
+	downloadFile "files/index.html" "src/index.html"
+	targetJsPath="$targetPath/js"
+	
+	mkdir $targetJsPath
+	downloadFile "files/js/index.html" "src/js/index.js"
+}
+
+downloadFile() {
+	filesUrl="https://raw.githubusercontent.com/andre-hub/WebStack/master"
+	curl -SsL $filesUrl/$1 >> $2
+}
+
 showParameterError() {
 	echo "error:"
 	echo " -> accept only: $0 <project name> <license>"
@@ -69,5 +92,6 @@ cd $1
 gitNewRepository
 getLicense $2
 installWebStack
+downloadTemplateFiles
 git add .
 git commit -am "initial commit for $1"
