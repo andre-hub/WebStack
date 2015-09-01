@@ -2,7 +2,7 @@
 
 WebStack is a minimal stack for modern web development.
 
-**Based on
+ ** Based on
  - bower (nodejs, npm)
  - material-design-lite
  - html5shiv.js

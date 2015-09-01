@@ -16,14 +16,15 @@ installWebStack() {
 	echo "download bower and install"
 	installNpmPkg bower
 	echo "download gulp and install"
-	installNpmPkg gulp
-	installNpmPkg gulp-babel
-	installNpmPkg gulp-minify-css
-	installNpmPkg gulp-jshint 
-	installNpmPkg gulp-concat 
-	installNpmPkg gulp-rename
-	installNpmPkg gulp-uglify 
-	installNpmPkg gulp-livereload
+	installNpmPkg "gulp"
+	installNpmPkg "gulp-sourcemaps"
+	installNpmPkg "gulp-babel"
+	installNpmPkg "gulp-minify-css"
+	installNpmPkg "gulp-jshint"
+	installNpmPkg "gulp-concat"
+	installNpmPkg "gulp-rename"
+	installNpmPkg "gulp-uglify"
+	installNpmPkg "gulp-livereload"
  
 	bowerbin="./node_modules/.bin/bower"
 	bowerinstall="${bowerbin} install --save "
