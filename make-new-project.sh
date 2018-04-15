@@ -33,6 +33,7 @@ installWebStack() {
 	installNpmPkg "gulp"
 	installNpmPkg "gulp-sourcemaps"
 	installNpmPkg "gulp-babel"
+	installNpmPkg "gulp-jsx"
 	installNpmPkg "gulp-minify-css"
 	installNpmPkg "gulp-jshint"
 	installNpmPkg "gulp-concat"
